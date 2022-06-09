@@ -13,6 +13,8 @@ import ExamenIndex from '@/components/examen/Index'
 import ConceptoIndex from '@/components/concepto/Index'
 import EnfermeroIndex from '@/components/enfermero/Index'
 import EspecialidadeIndex from '@/components/especialidade/Index'
+import MedicoIndex from '@/components/medico/Index'
+import PacienteIndex from '@/components/paciente/Index'
 
 
 Vue.use(Router)
@@ -36,6 +38,8 @@ const routes = [
     { path: '/conceptos', name: 'concepto', component: ConceptoIndex, beforeEnter: multiguard([isLoggedIn]) },
     { path: '/enfermeros', name: 'enfermero', component: EnfermeroIndex, beforeEnter: multiguard([isLoggedIn]) },
     { path: '/especialidades', name: 'especialidade', component: EspecialidadeIndex, beforeEnter: multiguard([isLoggedIn]) },
+    { path: '/medicos', name: 'medico', component: MedicoIndex, beforeEnter: multiguard([isLoggedIn]) },
+    { path: '/pacientes', name: 'paciente', component: PacienteIndex, beforeEnter: multiguard([isLoggedIn]) },
 ]
 
 export default new Router({
