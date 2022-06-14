@@ -5,6 +5,7 @@
     :items="items"
     sort-by="calories"
     class="elevation-1"
+    :search="search"
   >
     <template v-slot:item.costo="{ item }">
         {{ item.costo | currency('Q ') }}
@@ -19,6 +20,14 @@
         flat
       >
         <v-toolbar-title>EXAMENES</v-toolbar-title>
+        <v-spacer></v-spacer>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Buscar"
+            single-line
+            hide-details
+          ></v-text-field>
         <v-divider
           class="mx-4"
           inset

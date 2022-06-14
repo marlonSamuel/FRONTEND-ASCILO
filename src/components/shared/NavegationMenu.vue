@@ -188,6 +188,7 @@ export default {
                   { title: 'Conceptos de pago', path: 'conceptos' },
                   { title: 'Enfermeros', path:'enfermeros' },
                   { title: 'Pacientes', path:'pacientes' },
+                  { title: 'Solicitudes medicas', path:'solicitudes' },
                   ]
           
         },
@@ -197,8 +198,8 @@ export default {
           active: true,
           items: [{ title: 'Especialidades', path: 'especialidades' },
                   { title: 'Médicos', path:'medicos' },
-                  { title: 'Solicitudes medicas', path:'solicitudes' },
-                  { title: 'Consultas medicas', path:'consultas' }]
+                  { title: 'Solicitudes medicas', path:'hospital-solicitudes' },
+                  { title: 'Mis consultas', path:'mis-consultas' }]
           
         },
         {

@@ -12,6 +12,8 @@ import EnfermeroService from '../services/EnfermeroService'
 import EspecialidadeService from '../services/EspecialidadeService'
 import MedicoService from '../services/MedicoService'
 import PacienteService from '../services/PacienteService'
+import SolicitudeService from '../services/SolicitudeService'
+import ConsultaService from '../services/ConsultaService'
 
 // Axios Configuration
 Axios.defaults.headers.common.Accept = 'application/json'
@@ -77,4 +79,6 @@ export default {
     especialidadeService: new EspecialidadeService(Axios, baseUrl),
     medicoService: new MedicoService(Axios, baseUrl),
     pacienteService: new PacienteService(Axios, baseUrl),
+    solicitudeService: new SolicitudeService(Axios, baseUrl),
+    consultaService: new ConsultaService(Axios, baseUrl),
 }

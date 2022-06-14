@@ -7,6 +7,7 @@
     class="elevation-1"
     :single-expand="singleExpand"
     show-expand
+    :search = "search"
   >
     <template v-slot:item.full_name="{ item }">
         {{ item.primer_nombre+' '+(item.segundo_nombre != null ? item.segundo_nombre : '')+' '+item.primer_apellido + ' '+(item.segundo_apellido != null ? item.segundo_apellido : '') }}
@@ -92,6 +93,14 @@
         flat
       >
         <v-toolbar-title>PACIENTES</v-toolbar-title>
+        <v-spacer></v-spacer>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Buscar por cui"
+            single-line
+            hide-details
+          ></v-text-field>
         <v-divider
           class="mx-4"
           inset
@@ -626,6 +635,7 @@ import moment from 'moment'
         
 
         headers: [
+          {text: 'CUI',value: 'cui'},
           { text: 'Nombre completo', value: 'full_name' },
           { text: 'psicopatologia', value: 'psicopatologia.nombre' },
           { text: 'Fecha de nacimiento', value: 'fecha_nacimiento' },

@@ -4,21 +4,33 @@
     :headers="headers"
     :items="items"
     sort-by="calories"
-    class="elevation-1"
     :search="search"
+    class="elevation-1"
   >
-  <template v-slot:item.full_name="{ item }">
-        {{ item.primer_nombre+' '+(item.segundo_nombre != null ? item.segundo_nombre : '')+' '+item.primer_apellido + ' '+(item.segundo_apellido != null ? item.segundo_apellido : '') }}
+  <template v-slot:item.paciente="{ item }">
+        {{ getItemFullName(item.paciente) }}
     </template>
-    <template v-slot:item.fecha_nacimiento="{ item }">
-        {{ item.fecha_nacimiento | moment("DD-MM-YYYY") }}
+    <template v-slot:item.enfermero="{ item }">
+        {{ getItemFullName(item.enfermero) }}
+    </template>
+    <template v-slot:item.fecha_visita="{ item }">
+        {{item.fecha_visita | moment('DD-MM-YYYY')}}
+    </template>
+    <template v-slot:item.estado="{ item }">
+      <v-chip
+        small
+        :color="getColor(item.estado)[1]"
+        dark
+      >
+        {{ getColor(item.estado)[0] }}
+      </v-chip>
     </template>
 
     <template v-slot:top>
       <v-toolbar
         flat
       >
-        <v-toolbar-title>ENFERMEROS</v-toolbar-title>
+        <v-toolbar-title>SOLICITUDES DE CONSULTAS MEDICAS</v-toolbar-title>
         <v-spacer></v-spacer>
           <v-text-field
             v-model="search"
@@ -35,7 +47,7 @@
         <v-spacer></v-spacer>
         <v-dialog
           v-model="dialog"
-          max-width="700px"
+          max-width="1000px"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -61,125 +73,83 @@
                     lazy-validation
                 >
                 <v-row>
-                    <v-col
-                        cols="12"
-                        sm="6"
-                        md="6"
-                        xs="12"
-                      >
-                  
-                      <v-text-field
-                        v-model="editedItem.cui"
-                        label="CUI"
-                        :rules="cuiRules"
-                        required
-                      ></v-text-field>
-                    </v-col>
-                  </v-row>
-
-                    <v-row>
-                    <v-col
-                        cols="12"
-                        sm="6"
-                        md="6"
-                        xs="12"
-                      >
-                  
-                      <v-text-field
-                        v-model="editedItem.primer_nombre"
-                        label="Primer nombre"
-                        counter="25"
-                        :rules="primernRules"
-                        required
-                      ></v-text-field>
-                    </v-col>
-
-                    <v-col
+                  <v-col
                       cols="12"
                       sm="6"
                       md="6"
                       xs="12"
                     >
-                      <v-text-field
-                        v-model="editedItem.segundo_nombre"
-                        label="Segundo nombre"
-                        counter="25"
-                      ></v-text-field>
-                    </v-col>
-                  </v-row>
-
-                   <v-row>
-                    <v-col
-                        cols="12"
-                        sm="6"
-                        md="6"
-                        xs="12"
-                      >
-                  
-                      <v-text-field
-                        v-model="editedItem.primer_apellido"
-                        label="Primer apellido"
-                        counter="25"
-                        :rules="primernRules"
+                      <v-autocomplete 
+                        v-model="editedItem.paciente_id"
+                        :items="pacientes"
+                        :item-text="getItemFullName"
+                        item-value="id"
+                        :rules="pacienteRules"
+                        label="Paciente"
                         required
-                      ></v-text-field>
+                      ></v-autocomplete>
                     </v-col>
 
-                    <v-col
+                  <v-col
                       cols="12"
                       sm="6"
                       md="6"
                       xs="12"
                     >
-                      <v-text-field
-                        v-model="editedItem.segundo_apellido"
-                        label="Segundo apellido"
-                        counter="25"
-                      ></v-text-field>
+                      <v-autocomplete 
+                        v-model="editedItem.enfermero_id"
+                        :items="enfermeros"
+                        :item-text="getItemFullName"
+                        item-value="id"
+                        :rules="enfermeroRules"
+                        label="Enfermero"
+                        required
+                      ></v-autocomplete>
                     </v-col>
+                    
                   </v-row>
 
-                   <v-row>
-                    <v-col
-                        cols="12"
-                        sm="6"
-                        md="6"
-                        xs="12"
-                      >
-                  
-                      <v-text-field
-                        v-model="editedItem.telefono"
-                        label="Télefono"
-                        :rules="telefonoRules"
-                        counter="8"
-                        required
-                      ></v-text-field>
-                    </v-col>
-
-                    <v-col
+                  <v-row>
+                  <v-col
                       cols="12"
                       sm="6"
                       md="6"
                       xs="12"
                     >
-                      <v-text-field
-                        v-model="editedItem.fecha_nacimiento"
-                        label="Fecha nacimiento"
-                        :rules="dateRules"
-                        type='date'
+                      <v-autocomplete 
+                        v-model="editedItem.especialidade_id"
+                        :items="especialidades"
+                        item-text="nombre"
+                        item-value="id"
+                        :rules="especialidadRules"
+                        label="Especialidad"
+                        required
+                      ></v-autocomplete>
+                    </v-col>
+
+                  <v-col
+                      cols="12"
+                      sm="6"
+                      md="6"
+                      xs="12"
+                    >
+                      <v-text-field 
+                        v-model="editedItem.fecha_visita"
+                        :rules="fechaRules"
+                        label="Fecha de visita"
+                        type="date"
                         required
                       ></v-text-field>
                     </v-col>
+                    
                   </v-row>
-
-                  
 
                     <v-textarea
                       rows="2"
-                      v-model="editedItem.direccion"
-                      label="Dirección"
-                      :counter="250"
-                      :rules="dirRules"
+                      v-model="editedItem.motivo"
+                      label="Motivo de visita"
+                      :counter="500"
+                      :rules="motivoRules"
                       required
                     ></v-textarea>
                 </v-form>
@@ -222,6 +192,19 @@
     <v-tooltip top>
       <template v-slot:activator="{ on, attrs }">
           <v-icon v-on="on"
+            color="blue darken-2"
+            v-bind="attrs"
+            small
+            class="mr-2"
+          >
+            mdi-eye
+          </v-icon>
+      </template>
+      <span>Ver solicitud</span>
+    </v-tooltip>
+    <v-tooltip top v-if="item.estado == 'S'">
+      <template v-slot:activator="{ on, attrs }">
+          <v-icon v-on="on"
             color="yellow darken-2"
             v-bind="attrs"
             small
@@ -234,7 +217,7 @@
       <span>Editar</span>
     </v-tooltip>
 
-    <v-tooltip top>
+    <v-tooltip top v-if="item.estado == 'S'">
       <template v-slot:activator="{ on, attrs }">
           <v-icon
           color="error"
@@ -260,8 +243,9 @@
 </template>
 
 <script>
+import moment from 'moment'
   export default {
-    name: 'Indexenfermero',
+    name: 'Indexsolicitude',
 
     data: () => ({
         loading: false,
@@ -269,58 +253,54 @@
         dialog: false,
         dialogDelete: false,
         valid: true,
-        cuiRules: [
-            v => !!v || 'CUI es requerido',
-            v => !(v && isNaN(v)) || 'Debe ser un valor numerico',
-            v => (v && v.length >= 13 && v.length <= 15) || 'El cui debe estar entre 13 y 15 digitos',
+        today: moment(),
+        especialidadRules: [
+            v => !!v || 'La especialidad es requerida'
         ],
-        primernRules: [
-            v => !!v || 'Este campo es requerido',
-            v => (v && v.length <= 25) || 'Debe ingresar menos de 10 caracteres',
+        enfermeroRules: [
+            v => !!v || 'El enfermero(a) es requerido'
         ],
-        telefonoRules: [
-            v => !!v || 'Télefono es requerido',
-            v => !(v && isNaN(v)) || 'Debe ser un valor numerico',
-            v => (v && v.length >= 8 && v.length <= 8) || 'El número de télefono debe contener 8 digitos'
+        pacienteRules: [
+            v => !!v || 'El paciente es requerido'
         ],
-        dateRules: [
-            v => !!v || 'La fecha de nacimiento es requerida'
+        motivoRules: [
+            v => !!v || 'El motivo es requerido'
         ],
-        dirRules: [
-            v => !!v || 'La dirección es requerida',
-            v => (v && v.length <= 250) || 'Debe ingresar menos de 250 caracteres',
+        fechaRules: [
+            v => !!v || 'La fecha de visita es requerida',
+            v => !(moment(v).format('YYYY-MM-DD') < moment().format('YYYY-MM-DD')) || 'No puede seleccionar una fecha anterior a la actual'
         ],
+
         headers: [
-          {text: 'CUI', value: 'cui'},
-          { text: 'Nombre completo', value: 'full_name' },
-          { text: 'Fecha de nacimiento', value: 'fecha_nacimiento' },
-          { text: 'Telefono', value: 'telefono' },
-          { text: 'Dirección', value: 'direccion' },
+          { text: 'CUI', value: 'paciente.cui' },
+          { text: 'Paciente', value: 'paciente' },
+          { text: 'Especialidad', value: 'especialidade.nombre' },
+          { text: 'Enfermero', value: 'enfermero' },
+          { text: 'Fecha de programada', value: 'fecha_visita' },
+          { text: 'Motivo de visita', value: 'motivo' },
+          { text: 'Estado', value: 'estado' },
           { text: 'Acciones', value: 'actions', sortable: false },
         ],
         items: [],
+        especialidades: [],
+        enfermeros: [],
+        pacientes: [],
         editedIndex: -1,
         editedItem: {
             id: 0,
-            cui: '',
-            primer_nombre: '',
-            segundo_nombre: '',
-            primer_apellido: '',
-            segundo_apellido: '',
-            telefono: '',
-            direccion: '',
-            fecha_nacimiento: ''
+            especialidade_id: null,
+            enfermero_id: null,
+            paciente_id: null,
+            motivo: '',
+            fecha_visita: ''
         },
         defaultItem: {
             id: 0,
-            cui: '',
-            primer_nombre: '',
-            segundo_nombre: '',
-            primer_apellido: '',
-            segundo_apellido: '',
-            telefono: '',
-            direccion: '',
-            fecha_nacimiento: ''
+            especialidade_id: null,
+            enfermero_id: null,
+            paciente_id: null,
+            motivo: '',
+            fecha_visita: ''
         }
     }),
 
@@ -341,15 +321,74 @@
 
     created(){
         let self = this;
+        self.getEspecialidades()
+        self.getEnfermeros()
+        self.getPacientes()
         self.getAll()
     },
 
     methods: {
+      //obtener color del estado
+      getColor (estado) {
+        if(estado == 'S'){
+          return ['SOLICITADO','blue']
+        }else if(estado == 'P'){
+          return ['EN PROCESO','yellow darken-3'] 
+        }else if(estado == 'F'){
+          return ['FINALIZADA','red']
+        }else if(estado == 'C'){
+          return ['CONSULTA SALDADA','green']
+        }
+        return ['SOLICITADO','blue']
+      },
+      //funciones para concatenar nombres
+      getItemFullName(item) {
+          return this.$store.state.global.getFullName(item);
+      },
+      //listar todos los registrros de especilaidades
+      getEspecialidades() {
+        let self = this;
+        self.loading = true;
+        self.$store.state.services.especialidadeService
+          .getAll()
+          .then(r => {
+            self.loading = false;
+            self.especialidades = r.data;
+          })
+          .catch(r => {
+          });
+      },
+      //listar todos los registrros de enfermeros
+      getEnfermeros() {
+        let self = this;
+        self.loading = true;
+        self.$store.state.services.enfermeroService
+          .getAll()
+          .then(r => {
+            self.loading = false;
+            self.enfermeros = r.data;
+          })
+          .catch(r => {
+          });
+      },
+      //listar todos los registrros de pacientes
+      getPacientes() {
+        let self = this;
+        self.loading = true;
+        self.$store.state.services.pacienteService
+          .getAll()
+          .then(r => {
+            self.loading = false;
+            self.pacientes = r.data;
+          })
+          .catch(r => {
+          });
+      },
     //listar todos los registrros
       getAll() {
         let self = this;
         self.loading = true;
-        self.$store.state.services.enfermeroService
+        self.$store.state.services.solicitudeService
           .getAll()
           .then(r => {
             self.loading = false;
@@ -361,7 +400,7 @@
 //obtener po id
       get(id) {
         let self = this;
-        self.$store.state.services.enfermeroService
+        self.$store.state.services.solicitudeService
           .get(id)
           .then(r => {
             
@@ -374,7 +413,7 @@
           let self = this
           let data = self.editedItem
           self.loading = true;
-          self.$store.state.services.enfermeroService
+          self.$store.state.services.solicitudeService
           .create(data)
           .then(r=>{
             self.loading = false;
@@ -382,7 +421,7 @@
                 self.$store.state.global.captureError(r, 'error')
                 return
               }
-              self.$toastr.success('enfermero creada con éxito', 'Mensaje');
+              self.$toastr.success('solicitude creada con éxito', 'Mensaje');
               self.getAll()
           })
           .catch(e=>{
@@ -394,7 +433,7 @@
           let self = this;
           let data = self.editedItem
           self.loading = true;
-          self.$store.state.services.enfermeroService
+          self.$store.state.services.solicitudeService
           .update(data)
           .then(r=>{
             self.loading = false;
@@ -402,7 +441,7 @@
                 self.$store.state.global.captureError(r, 'error')
                 return
               }      
-              self.$toastr.success('enfermero actualizada con éxito', 'Mensaje');      
+              self.$toastr.success('solicitude actualizada con éxito', 'Mensaje');      
               self.getAll()
           })
           .catch(e=>{
@@ -414,7 +453,7 @@
           let self = this;
           let data = self.editedItem
           self.loading = true;
-          self.$store.state.services.enfermeroService
+          self.$store.state.services.solicitudeService
           .remove(data.id)
           .then(r=>{
             self.loading = false;
@@ -422,7 +461,7 @@
                 self.$store.state.global.captureError(r, 'error')
                 return
               }
-              self.$toastr.success('enfermero eliminada con éxito', 'Mensaje');
+              self.$toastr.success('solicitude eliminada con éxito', 'Mensaje');
               self.getAll()
           })
           .catch(e=>{
@@ -432,6 +471,9 @@
 
     editItem (item) {
         this.editedIndex = this.items.indexOf(item)
+        item.especialidade_id = item.especialidade.id
+        item.enfermero_id = item.enfermero.id
+        item.paciente_id = item.paciente.id
         this.editedItem = Object.assign({}, item)
         this.dialog = true
     },
