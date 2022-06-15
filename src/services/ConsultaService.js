@@ -22,6 +22,11 @@ class ConsultaService {
         return self.axios.get(`${self.baseUrl}-user`);
     }
 
+    getByUserDate(date) {
+        let self = this;
+        return self.axios.get(`${self.baseUrl}-user-date/${date}`);
+    }
+
     create(data) {
         let self = this
         return self.axios.post(`${self.baseUrl}`, data)
@@ -30,6 +35,11 @@ class ConsultaService {
     update(data) {
         let self = this
         return self.axios.put(`${self.baseUrl}/${data.id}`, data)
+    }
+
+    finish(data) {
+        let self = this
+        return self.axios.put(`${self.baseUrl}-finish/${data.id}`, data)
     }
 
     remove(id) {

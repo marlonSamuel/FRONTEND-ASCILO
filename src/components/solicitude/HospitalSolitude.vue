@@ -89,7 +89,7 @@
                     >
                       <v-autocomplete 
                         v-model="editedItem.medico_id"
-                        :items="medicos"
+                        :items="medicosFilter"
                         :item-text="getItemFullName"
                         item-value="id"
                         :rules="medicoRules"
@@ -256,6 +256,7 @@ import moment from 'moment'
             items: [],
             itemsStatus: [],
             medicos: [],
+            medicosFilter: [],
             editedIndex: -1,
             editedItem: {
                 id: 0,
@@ -361,7 +362,7 @@ import moment from 'moment'
           .then(r => {
             self.loading = false;
             self.items = r.data;
-            self.itemsStatus = self.items.filter(x=>x.estado == 'S');
+            self.itemsStatus = self.items.filter(x=>x.estado == self.estado);
           })
           .catch(r => {
           });
@@ -423,6 +424,8 @@ import moment from 'moment'
         this.editedIndex = -1
         this.editedItem.solicitude_id = item.id;
         this.editedItem.fecha_asignada  = item.fecha_visita;
+        this.medicosFilter = this.medicos.filter(x=>x.especialidade_id == item.especialidade_id);
+        console.log(this.medicosFilter)
         this.dialog = true
     },
 
@@ -431,8 +434,11 @@ import moment from 'moment'
         this.editedItem.id = item.id;
         this.editedItem.medico_id = parseInt(item.medico_id);
         this.editedItem.fecha_asignada = moment(item.fecha_asignada).format('YYYY-MM-DD');
-        this.editedItem.hora_inicio = moment(item.fecha_asignada).format('h:mm');
-        this.editedItem.hora_fin = moment(item.fecha_asignada_fin).format('h:mm');
+        this.editedItem.hora_inicio = moment(item.fecha_asignada).format('hh:mm');
+        this.editedItem.hora_fin = moment(item.fecha_asignada_fin).format('hh:mm');
+
+        this.medicosFilter = this.medicos.filter(x=>x.especialidade_id == item.especialidade_id);
+
         this.dialog = true
     },
 

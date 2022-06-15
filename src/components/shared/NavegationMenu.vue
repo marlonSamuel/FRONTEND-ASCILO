@@ -167,20 +167,6 @@ export default {
     drawer: null,
     items: [
         {
-          icon: 'mdi-bottle-tonic-plus',
-          title: 'Farmacia',
-          active: true,
-          items: [{ title: 'Medicamentos', path:'medicamentos' }]
-          
-        },
-        {
-          icon: 'mdi-file-plus',
-          title: 'Laboratorio',
-          active: true,
-          items: [{ title: 'Examenes', path:'examenes' }]
-          
-        },
-        {
           icon: 'mdi-account-network',
           title: 'Ascilo',
           active: true,
@@ -200,6 +186,21 @@ export default {
                   { title: 'Médicos', path:'medicos' },
                   { title: 'Solicitudes medicas', path:'hospital-solicitudes' },
                   { title: 'Mis consultas', path:'mis-consultas' }]
+          
+        },
+        
+        {
+          icon: 'mdi-bottle-tonic-plus',
+          title: 'Farmacia',
+          active: true,
+          items: [{ title: 'Medicamentos', path:'medicamentos' }]
+          
+        },
+        {
+          icon: 'mdi-file-plus',
+          title: 'Laboratorio',
+          active: true,
+          items: [{ title: 'Examenes', path:'examenes' }]
           
         },
         {

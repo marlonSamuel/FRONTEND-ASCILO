@@ -79,7 +79,8 @@ import moment from 'moment'
     },
 
     dblClick(date){
-        console.log(date);
+        let self = this;
+        self.$router.push('/atender-consulta/'+date)
     },
     //listar todos los registrros
       getAll() {
