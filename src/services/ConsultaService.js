@@ -27,6 +27,16 @@ class ConsultaService {
         return self.axios.get(`${self.baseUrl}-user-date/${date}`);
     }
 
+    getMedicamentos(id) {
+        let self = this;
+        return self.axios.get(`${self.baseUrl}-medicamentos/${id}`);
+    }
+
+    getExamenes(id) {
+        let self = this;
+        return self.axios.get(`${self.baseUrl}-examenes/${id}`);
+    }
+
     create(data) {
         let self = this
         return self.axios.post(`${self.baseUrl}`, data)
@@ -35,6 +45,18 @@ class ConsultaService {
     update(data) {
         let self = this
         return self.axios.put(`${self.baseUrl}/${data.id}`, data)
+    }
+
+    entregarMedicamento(id) {
+        let self = this
+        return self.axios.put(`${self.baseUrl}-entregar-medicamentos/${id}`)
+    }
+
+    resultadoExamen(id, data) {
+        let self = this;
+        return self.axios.post(`${self.baseUrl}-resultado-examenes/${id}`, data, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        });
     }
 
     finish(data) {

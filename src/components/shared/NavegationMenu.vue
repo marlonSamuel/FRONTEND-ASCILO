@@ -193,14 +193,16 @@ export default {
           icon: 'mdi-bottle-tonic-plus',
           title: 'Farmacia',
           active: true,
-          items: [{ title: 'Medicamentos', path:'medicamentos' }]
+          items: [{ title: 'Medicamentos', path:'medicamentos' },
+                  { title: 'Ventas', path:'entregar-medicamento' }]
           
         },
         {
           icon: 'mdi-file-plus',
           title: 'Laboratorio',
           active: true,
-          items: [{ title: 'Examenes', path:'examenes' }]
+          items: [{ title: 'Examenes', path:'examenes' },
+                  { title: 'Laboratorios ', path:'resultado-examenes' }]
           
         },
         {

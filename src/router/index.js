@@ -19,6 +19,8 @@ import SolicitudIndex from '@/components/solicitude/Index'
 import HospitalSolicitud from '@/components/solicitude/HospitalSolitude'
 import ConsultaMedico from '@/components/consulta/ConsultaMedico'
 import AtenderConsulta from '@/components/consulta/AtenderConsulta'
+import EntregarMedicamento from '@/components/consulta/EntregarMedicamento'
+import ResultadoExamenes from '@/components/consulta/ResultadoExamenes'
 
 
 Vue.use(Router)
@@ -48,6 +50,8 @@ const routes = [
     { path: '/hospital-solicitudes', name: 'HospitalSolicitud', component: HospitalSolicitud, beforeEnter: multiguard([isLoggedIn]) },
     { path: '/mis-consultas', name: 'ConsultaMedico', component: ConsultaMedico, beforeEnter: multiguard([isLoggedIn]) },
     { path: '/atender-consulta/:date', name: 'AtenderConsulta', component: AtenderConsulta, beforeEnter: multiguard([isLoggedIn]) },
+    { path: '/entregar-medicamento', name: 'EntregarMedicamento', component: EntregarMedicamento, beforeEnter: multiguard([isLoggedIn]) },
+    { path: '/resultado-examenes', name: 'ResultadoExamenes', component: ResultadoExamenes, beforeEnter: multiguard([isLoggedIn]) },
 ]
 
 export default new Router({
