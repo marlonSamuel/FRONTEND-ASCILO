@@ -301,7 +301,7 @@
                     <v-col xs="12" sm="12" md="12" lg="12">
                         
                   <v-row>
-                    <v-col sm="12" md="12" xs="12">
+                    <v-col sm="12" md="12" xs="12" >
                          <div class="my-2">
                         <v-btn
                         color="success"
@@ -423,6 +423,7 @@
                 color="blue darken-1"
                 text
                 @click="save"
+                :disabled="showAddExamen(editedItem.examenes) || showAddMedicamento(editedItem.medicamentos)"
               >
                 Guardar
               </v-btn>
@@ -718,7 +719,7 @@ import moment from 'moment'
     addExam(){
         let self = this;
         if (this.$refs.formExamen.validate()){
-            if(self.editedItem.examenes.some(x=>x.id==self.examenItem.examene_id)){
+            if(self.editedItem.examenes.some(x=>x.examene_id==self.examenItem.examene_id)){
                 self.$toastr.error('El examen ya fue agregado','error');
                 return;
             }
@@ -738,7 +739,7 @@ import moment from 'moment'
     addMedicamento(){
         let self = this;
         if (this.$refs.formMedicamento.validate()){
-            if(self.editedItem.medicamentos.some(x=>x.id==self.medicamentoItem.medicamento_id)){
+            if(self.editedItem.medicamentos.some(x=>x.medicamento_id==self.medicamentoItem.medicamento_id)){
                 self.$toastr.error('El medicamento ya fue agregado','error');
                 return;
             }
@@ -772,7 +773,17 @@ import moment from 'moment'
             self.update();
             this.close();
           }
-        }
+        },
+
+      showAddExamen(items){
+        let self = this
+        return items.some(x=>x.realizado);
+      },
+
+      showAddMedicamento(items){
+        let self = this
+        return items.some(x=>x.entregado);
+      }
     }
   }
 </script>

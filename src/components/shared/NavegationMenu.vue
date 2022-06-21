@@ -171,7 +171,6 @@ export default {
           title: 'Ascilo',
           active: true,
           items: [{ title: 'Psicopatologias', path:'psicopatologias' },
-                  { title: 'Conceptos de pago', path: 'conceptos' },
                   { title: 'Enfermeros', path:'enfermeros' },
                   { title: 'Pacientes', path:'pacientes' },
                   { title: 'Solicitudes medicas', path:'solicitudes' },
@@ -209,8 +208,11 @@ export default {
           icon: 'mdi-cash-check ',
           title: 'Caja',
           active: true,
-          items: [{ title: 'Ingresos/Gastos', path:'ingresos-gastos' },
-                  { title: 'Pagos pacientes', path:'pagos' }]
+          items: [
+                  { title: 'Conceptos de pago', path: 'conceptos' },
+                  { title: 'Ingresos/Gastos', path:'ingresos-gastos' },
+                  { title: 'Pagos fundación', path:'pagos-fundacion' },
+                  { title: 'Pagos mensuales', path:'pagos' }]
           
         }
       ],

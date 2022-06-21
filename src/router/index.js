@@ -21,6 +21,10 @@ import ConsultaMedico from '@/components/consulta/ConsultaMedico'
 import AtenderConsulta from '@/components/consulta/AtenderConsulta'
 import EntregarMedicamento from '@/components/consulta/EntregarMedicamento'
 import ResultadoExamenes from '@/components/consulta/ResultadoExamenes'
+import IngresoGasto from '@/components/ingresogasto/Index'
+import PagoFundacion from '@/components/pagofundacion/Index'
+import Pago from '@/components/pago/Index'
+
 
 
 Vue.use(Router)
@@ -52,6 +56,9 @@ const routes = [
     { path: '/atender-consulta/:date', name: 'AtenderConsulta', component: AtenderConsulta, beforeEnter: multiguard([isLoggedIn]) },
     { path: '/entregar-medicamento', name: 'EntregarMedicamento', component: EntregarMedicamento, beforeEnter: multiguard([isLoggedIn]) },
     { path: '/resultado-examenes', name: 'ResultadoExamenes', component: ResultadoExamenes, beforeEnter: multiguard([isLoggedIn]) },
+    { path: '/ingresos-gastos', name: 'IngresoGasto', component: IngresoGasto, beforeEnter: multiguard([isLoggedIn]) },
+    { path: '/pagos-fundacion', name: 'PagoFundacion', component: PagoFundacion, beforeEnter: multiguard([isLoggedIn]) },
+    { path: '/pagos', name: 'Pago', component: Pago, beforeEnter: multiguard([isLoggedIn]) },
 ]
 
 export default new Router({

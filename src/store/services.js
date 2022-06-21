@@ -14,6 +14,11 @@ import MedicoService from '../services/MedicoService'
 import PacienteService from '../services/PacienteService'
 import SolicitudeService from '../services/SolicitudeService'
 import ConsultaService from '../services/ConsultaService'
+import IngresoGastoService from '../services/IngresoGastoService'
+import PagoFundacionService from '../services/PagoFundacionService'
+import PagoService from '../services/PagoService'
+import AnioService from '../services/AnioService'
+import MesService from '../services/MesService'
 
 // Axios Configuration
 Axios.defaults.headers.common.Accept = 'application/json'
@@ -81,4 +86,9 @@ export default {
     pacienteService: new PacienteService(Axios, baseUrl),
     solicitudeService: new SolicitudeService(Axios, baseUrl),
     consultaService: new ConsultaService(Axios, baseUrl),
+    ingresoGastoService: new IngresoGastoService(Axios, baseUrl),
+    pagoFundacionService: new PagoFundacionService(Axios, baseUrl),
+    pagoService: new PagoService(Axios, baseUrl),
+    anioService: new AnioService(Axios, baseUrl),
+    mesService: new MesService(Axios, baseUrl),
 }
