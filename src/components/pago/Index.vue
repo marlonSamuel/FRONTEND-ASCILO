@@ -30,7 +30,7 @@
     </template>
 
     <template v-slot:item.meses="{ item }">
-       <label> {{item.meses.map(x => x.mes).join(', ') }}, </label>
+       <label> {{item.meses.map((x) => x.mes).join(', ') }}, </label>
     </template>
 
     <template v-slot:top>

@@ -170,10 +170,10 @@ export default {
           icon: 'mdi-account-network',
           title: 'Ascilo',
           active: true,
-          items: [{ title: 'Psicopatologias', path:'psicopatologias' },
-                  { title: 'Enfermeros', path:'enfermeros' },
-                  { title: 'Pacientes', path:'pacientes' },
-                  { title: 'Solicitudes medicas', path:'solicitudes' },
+          items: [{ title: 'Psicopatologias', path:'/psicopatologias' },
+                  { title: 'Enfermeros', path:'/enfermeros' },
+                  { title: 'Pacientes', path:'/pacientes' },
+                  { title: 'Solicitudes medicas', path:'/solicitudes' },
                   ]
           
         },
@@ -181,10 +181,10 @@ export default {
           icon: 'mdi-bottle-tonic-plus',
           title: 'Hospital',
           active: true,
-          items: [{ title: 'Especialidades', path: 'especialidades' },
-                  { title: 'Médicos', path:'medicos' },
-                  { title: 'Solicitudes medicas', path:'hospital-solicitudes' },
-                  { title: 'Mis consultas', path:'mis-consultas' }]
+          items: [{ title: 'Especialidades', path: '/especialidades' },
+                  { title: 'Médicos', path:'/medicos' },
+                  { title: 'Solicitudes medicas', path:'/hospital-solicitudes' },
+                  { title: 'Mis consultas', path:'/mis-consultas' }]
           
         },
         
@@ -192,16 +192,16 @@ export default {
           icon: 'mdi-bottle-tonic-plus',
           title: 'Farmacia',
           active: true,
-          items: [{ title: 'Medicamentos', path:'medicamentos' },
-                  { title: 'Ventas', path:'entregar-medicamento' }]
+          items: [{ title: 'Medicamentos', path:'/medicamentos' },
+                  { title: 'Ventas', path:'/entregar-medicamento' }]
           
         },
         {
           icon: 'mdi-file-plus',
           title: 'Laboratorio',
           active: true,
-          items: [{ title: 'Examenes', path:'examenes' },
-                  { title: 'Laboratorios ', path:'resultado-examenes' }]
+          items: [{ title: 'Examenes', path:'/examenes' },
+                  { title: 'Resultados ', path:'/resultado-examenes' }]
           
         },
         {
@@ -209,10 +209,10 @@ export default {
           title: 'Caja',
           active: true,
           items: [
-                  { title: 'Conceptos de pago', path: 'conceptos' },
-                  { title: 'Ingresos/Gastos', path:'ingresos-gastos' },
-                  { title: 'Pagos fundación', path:'pagos-fundacion' },
-                  { title: 'Pagos mensuales', path:'pagos' }]
+                  { title: 'Conceptos de pago', path: '/conceptos' },
+                  { title: 'Ingresos/Gastos', path:'/ingresos-gastos' },
+                  { title: 'Pagos fundación', path:'/pagos-fundacion' },
+                  { title: 'Pagos mensuales', path:'/pagos' }]
           
         }
       ],

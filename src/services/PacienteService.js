@@ -17,6 +17,11 @@ class PacienteService {
         return self.axios.get(`${self.baseUrl}/${id}`);
     }
 
+    getHistorial(id) {
+        let self = this;
+        return self.axios.get(`${self.baseUrl}-historial/${id}`);
+    }
+
     create(data) {
         let self = this
         return self.axios.post(`${self.baseUrl}`, data)

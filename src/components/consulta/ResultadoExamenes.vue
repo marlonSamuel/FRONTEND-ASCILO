@@ -65,10 +65,10 @@
                         >
                         <td>{{ ex.examene.nombre }}</td>
                         <td>{{ ex.indicaciones }}</td>
-                        <td>{{ ex.realizado ? 'SI' : 'NO' }}</td>
+                        <td>{{ ex.realizado == 1 ? 'SI' : 'NO' }}</td>
                         <td>{{ ex.precio | currency('Q ') }}</td>
                         <td>
-                            <v-icon @click="downloadResultado(ex.resultado)" color="red" v-if="item.resultado !== null">mdi-file-download-outline</v-icon>
+                            <v-icon @click="downloadResultado(ex.resultado)" color="red" v-if="ex.resultado !== null">mdi-file-download-outline</v-icon>
                         </td>
                         <td><v-icon @click="openDialog(ex)" color="red">mdi-upload</v-icon></td>
                         </tr>

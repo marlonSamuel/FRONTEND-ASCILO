@@ -56,9 +56,6 @@
                         <th class="text-left">
                             Precio
                         </th>
-                       <th class="text-left">
-                            Entregado
-                        </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -70,7 +67,7 @@
                         <td>{{ item.cantidad }}</td>
                         <td>{{ item.tiempo_aplicacion }}</td>
                         <td>{{ item.indicaciones }}</td>
-                        <td>{{ item.entregado ? 'SI' : 'NO' }}</td>
+                        <td>{{ item.entregado == 1 ? 'SI' : 'NO' }}</td>
                         <td>{{ item.precio | currency('Q ') }}</td>
                         </tr>
                     </tbody>

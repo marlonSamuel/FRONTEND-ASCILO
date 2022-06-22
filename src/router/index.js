@@ -15,6 +15,7 @@ import EnfermeroIndex from '@/components/enfermero/Index'
 import EspecialidadeIndex from '@/components/especialidade/Index'
 import MedicoIndex from '@/components/medico/Index'
 import PacienteIndex from '@/components/paciente/Index'
+import PacienteHistorial from '@/components/paciente/Historial'
 import SolicitudIndex from '@/components/solicitude/Index'
 import HospitalSolicitud from '@/components/solicitude/HospitalSolitude'
 import ConsultaMedico from '@/components/consulta/ConsultaMedico'
@@ -50,6 +51,7 @@ const routes = [
     { path: '/especialidades', name: 'especialidade', component: EspecialidadeIndex, beforeEnter: multiguard([isLoggedIn]) },
     { path: '/medicos', name: 'medico', component: MedicoIndex, beforeEnter: multiguard([isLoggedIn]) },
     { path: '/pacientes', name: 'paciente', component: PacienteIndex, beforeEnter: multiguard([isLoggedIn]) },
+    { path: '/pacientes-historial/:id', name: 'PacienteHistorial', component: PacienteHistorial, beforeEnter: multiguard([isLoggedIn]) },
     { path: '/solicitudes', name: 'solicitude', component: SolicitudIndex, beforeEnter: multiguard([isLoggedIn]) },
     { path: '/hospital-solicitudes', name: 'HospitalSolicitud', component: HospitalSolicitud, beforeEnter: multiguard([isLoggedIn]) },
     { path: '/mis-consultas', name: 'ConsultaMedico', component: ConsultaMedico, beforeEnter: multiguard([isLoggedIn]) },

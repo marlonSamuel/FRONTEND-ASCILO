@@ -39,6 +39,12 @@
       </v-chip>
     </template>
 
+    <template v-slot:item.fecha_asignada="{ item }">
+        <span v-if="item.consulta != null">
+            {{item.consulta_medica.fecha_asignada | moment('DD-MM-YYYY')}} de {{item.consulta_medica.fecha_asignada | moment('h:mm a')}} - {{item.consulta_medica.fecha_asignada_fin | moment('h:mm a')}}
+        </span>
+    </template>
+
         <template v-slot:expanded-item="{ headers, item }">
       <td :colspan="headers.length">
             <v-container>
@@ -67,9 +73,6 @@
                         </th>
                         <th class="text-left">
                             Precio
-                        </th>
-                       <th class="text-left">
-                            Entregado
                         </th>
                         </tr>
                     </thead>
@@ -205,6 +208,7 @@
         headers: [
           {text: 'CUI', value: 'consulta_medica.solicitude.paciente.cui'},
           { text: 'Nombre completo', value: 'full_name' },
+          { text: 'Fecha consulta', value: 'fecha_asignada' },
           { text: 'Total Consulta', value: 'consulta' },
           { text: 'Total Medicamentos', value: 'medicamentos' },
           { text: 'Total examenes', value: 'examenes' },

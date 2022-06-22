@@ -50,6 +50,7 @@
                     <p><b>Psicopatología:</b>  {{item.psicopatologia.nombre}}</p>
                     <p><b>Razón por internrarlo(a):</b>  {{item.razon}}</p>
                     <p><b>Alergias:</b>  {{item.alergias}}</p>
+                    <p><b>Medicamentos administrados:</b>  {{item.medicamentos.map((x) => x.medicamento.nombre).join(', ')}}</p>
                   </v-col>
                 </v-row>
               
@@ -488,6 +489,17 @@
 
                     <h2>Otra información</h2>
 
+                      <v-autocomplete
+                        v-model="editedItem.medicamentos"
+                        :items="medicamentos"
+                        item-text="nombre"
+                        item-value="id"
+                        chips
+                        small-chips
+                        label="Medicamentos administrados"
+                        multiple
+                      ></v-autocomplete>
+
                     <v-textarea
                       rows="2"
                       v-model="editedItem.razon"
@@ -542,6 +554,20 @@
       </v-toolbar>
     </template>
     <template v-slot:item.actions="{ item }">
+     <v-tooltip top>
+      <template v-slot:activator="{ on, attrs }">
+          <v-icon v-on="on"
+            color="blue darken-2"
+            v-bind="attrs"
+            small
+            class="mr-2"
+            @click="$router.push('/pacientes-historial/'+item.id)"
+          >
+            mdi-eye
+          </v-icon>
+      </template>
+      <span>Ver historial medico</span>
+    </v-tooltip>
     <v-tooltip top>
       <template v-slot:activator="{ on, attrs }">
           <v-icon v-on="on"
@@ -646,6 +672,7 @@ import moment from 'moment'
         ],
         items: [],
         psicopatologias: [],
+        medicamentos: [],
         parentescos: [
           {text: 'Hijo(a)',value: 'H'},
           {text: 'Primo(a)',value: 'P'},
@@ -683,6 +710,7 @@ import moment from 'moment'
             direccion_responsable: '',
             celular: '',
             genero: '',
+            medicamentos: []
         },
         defaultItem: {
             id: 0,
@@ -708,7 +736,8 @@ import moment from 'moment'
             alergias: '',
             direccion_responsable: '',
             celular: '',
-            genero: ''
+            genero: '',
+            medicamentos: []
         }
     }),
 
@@ -729,6 +758,7 @@ import moment from 'moment'
 
     created(){
         let self = this;
+        self.getMedicamentos()
         self.getpsicopatologias()
         self.getAll()
     },
@@ -752,6 +782,21 @@ import moment from 'moment'
           .catch(r => {
           });
       },
+
+      //listar todos medicamentos
+      getMedicamentos() {
+        let self = this;
+        self.loading = true;
+        self.$store.state.services.medicamentoService
+          .getAll()
+          .then(r => {
+            self.loading = false;
+            self.medicamentos = r.data;
+          })
+          .catch(r => {
+          });
+      },
+
     //listar todos los registrros
       getAll() {
         let self = this;
@@ -841,6 +886,11 @@ import moment from 'moment'
         this.editedIndex = this.items.indexOf(item)
         item.psicopatologia_id = item.psicopatologia.id
         this.editedItem = Object.assign({}, item)
+        this.editedItem.medicamentos = []
+        item.medicamentos.forEach((item,i)=>{
+          this.editedItem.medicamentos.push(parseInt(item.medicamento_id))
+        });
+        console.log(this.editedItem)
         this.dialog = true
     },
 

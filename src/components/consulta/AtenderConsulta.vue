@@ -214,6 +214,8 @@
     :items="itemsStatus"
     :search="search"
     class="elevation-1"
+    :single-expand="true"
+    show-expand
   >
   <template v-slot:item.paciente="{ item }">
         {{ getItemFullName(item.solicitude.paciente) }}
@@ -239,6 +241,99 @@
         </span>
         
     </template>
+
+          <template v-slot:expanded-item="{ headers, item }">
+      <td :colspan="headers.length">
+              <v-container>
+          <v-card-title>DETALLE MEDICAMENTOS</v-card-title>
+          <v-card-text>
+              <v-simple-table dense>
+                      <template v-slot:default>
+                      <thead>
+                          <tr>
+                          <th class="text-left">
+                              medicamento
+                          </th>
+                          <th class="text-left">
+                              cantidad
+                          </th>
+                          <th class="text-left">
+                              dias de aplicación
+                          </th>
+                          <th class="text-left">
+                              Indicaciones
+                          </th>
+                          
+                          <th class="text-left">
+                              Entregado
+                          </th>
+                          <th class="text-left">
+                              Fecha
+                          </th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr
+                          v-for="me in item.medicamentos"
+                          :key="me.id"
+                          >
+                          <td>{{ me.medicamento.nombre }}</td>
+                          <td>{{ me.cantidad }}</td>
+                          <td>{{ me.tiempo_aplicacion }}</td>
+                          <td>{{ me.indicaciones }}</td>
+                          <td>{{ me.entregado == 1 ? 'SI' : 'NO' }}</td>
+                          <td>{{ me.created_at | moment('DD/MM/YYYY') }}</td>
+                          </tr>
+                      </tbody>
+                  </template>
+              </v-simple-table>
+          </v-card-text>
+
+                  <v-card-title>DETALLE EXAMENES REALIZADOS</v-card-title>
+          <v-card-text>
+              <v-simple-table dense>
+                      <template v-slot:default>
+                      <thead>
+                          <tr>
+                          <th class="text-left">
+                              Examen
+                          </th>
+                          <th class="text-left">
+                              Indicaciones
+                          </th>
+                          <th class="text-left">
+                              Realizado
+                          </th>
+                          <th class="text-left">
+                              Fecha
+                          </th>
+                          <th class="text-left">
+                              Ver resultado
+                          </th>
+                      
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr
+                          v-for="ex in item.examenes"
+                          :key="ex.id"
+                          >
+                          <td>{{ ex.examene.nombre }}</td>
+                          <td>{{ ex.indicaciones }}</td>
+                          <td>{{ ex.realizado == 1 ? 'SI' : 'NO' }}</td>
+                          <td>{{ ex.created_at | moment('DD/MM/YYYY') }}</td>
+                            <td>
+                              <v-icon @click="downloadResultado(ex.resultado)" color="red" v-if="ex.resultado !== null">mdi-file-download-outline</v-icon>
+                          </td>
+                          </tr>
+                          
+                      </tbody>
+                  </template>
+              </v-simple-table>
+          </v-card-text>
+      </v-container>
+      </td>
+      </template>
 
     <template v-slot:top>
       <v-toolbar
@@ -440,13 +535,14 @@
             v-bind="attrs"
             small
             class="mr-2"
+            @click="$router.push('/pacientes-historial/'+item.solicitude.paciente_id)"
           >
             mdi-eye
           </v-icon>
       </template>
-      <span>Ver solicitud</span>
+      <span>Ver historial medico</span>
     </v-tooltip>
-    <v-tooltip top v-if="item.estado !== 'F'">
+    <v-tooltip top v-if="item.solicitude.estado !== 'F' && item.solicitude.estado !== 'C'">
       <template v-slot:activator="{ on, attrs }">
           <v-icon v-on="on"
             color="yellow darken-2"
@@ -783,6 +879,12 @@ import moment from 'moment'
       showAddMedicamento(items){
         let self = this
         return items.some(x=>x.entregado);
+      },
+
+      downloadResultado(res){
+          let self = this
+          let uri = self.$store.state.base_url+'resultados/'+res
+          window.open(uri)
       }
     }
   }
