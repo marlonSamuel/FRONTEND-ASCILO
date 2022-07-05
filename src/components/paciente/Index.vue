@@ -431,7 +431,6 @@
                         required
                       ></v-text-field>
                     </v-col>
-                    </v-col>
                   </v-row>
 
                 <v-row>
@@ -516,6 +515,8 @@
                         type='date'
                         required
                       ></v-text-field>
+                      
+                    </v-col>
 
                     <v-textarea
                       rows="2"
