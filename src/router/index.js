@@ -2,9 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import store from '../store/index'
 import multiguard from 'vue-router-multiguard'
+import _ from 'lodash'
 
 import Default from '@/components/Default'
-import PeopleIndex from '@/components/people/Index'
 import Login from '@/components/auth/Login'
 
 import PsicopatologiaIndex from '@/components/psicopatologia/Index'
@@ -25,6 +25,9 @@ import ResultadoExamenes from '@/components/consulta/ResultadoExamenes'
 import IngresoGasto from '@/components/ingresogasto/Index'
 import PagoFundacion from '@/components/pagofundacion/Index'
 import Pago from '@/components/pago/Index'
+import Reporte from '@/components/reporte/Index'
+import User from '@/components/user/Index'
+import ChangePassword from '@/components/user/ChangePassword'
 
 
 
@@ -39,28 +42,42 @@ const isLoggedOut = (to, from, next) => {
     return store.state.is_login ? next('/') : next()
 }
 
+//proteger rutas de los sistema, verificar si tiene acceso
+const permissionValidations = (to, from, next) => {
+    if (store.state.rol.toLowerCase() == 'admin') {
+        return next()
+    }
+    var permisos = store.state.permisos //obtener permisos del usuario
+    var name = to.name
+    console.log(name, permisos)
+    var permiso = _.includes(permisos, name) //verificar si permiso existe
+    return permiso ? next() : next('/')
+}
+
 const routes = [
     { path: '/', name: 'Default', component: Default, beforeEnter: multiguard([isLoggedIn]) },
-    { path: '/people', name: 'People', component: PeopleIndex, beforeEnter: multiguard([isLoggedIn]) },
     { path: '/login', name: 'Login', component: Login, beforeEnter: multiguard([isLoggedOut]) },
-    { path: '/psicopatologias', name: 'psicopatologia', component: PsicopatologiaIndex, beforeEnter: multiguard([isLoggedIn]) },
-    { path: '/medicamentos', name: 'medicamento', component: MedicamentoIndex, beforeEnter: multiguard([isLoggedIn]) },
-    { path: '/examenes', name: 'examen', component: ExamenIndex, beforeEnter: multiguard([isLoggedIn]) },
-    { path: '/conceptos', name: 'concepto', component: ConceptoIndex, beforeEnter: multiguard([isLoggedIn]) },
-    { path: '/enfermeros', name: 'enfermero', component: EnfermeroIndex, beforeEnter: multiguard([isLoggedIn]) },
-    { path: '/especialidades', name: 'especialidade', component: EspecialidadeIndex, beforeEnter: multiguard([isLoggedIn]) },
-    { path: '/medicos', name: 'medico', component: MedicoIndex, beforeEnter: multiguard([isLoggedIn]) },
-    { path: '/pacientes', name: 'paciente', component: PacienteIndex, beforeEnter: multiguard([isLoggedIn]) },
-    { path: '/pacientes-historial/:id', name: 'PacienteHistorial', component: PacienteHistorial, beforeEnter: multiguard([isLoggedIn]) },
-    { path: '/solicitudes', name: 'solicitude', component: SolicitudIndex, beforeEnter: multiguard([isLoggedIn]) },
-    { path: '/hospital-solicitudes', name: 'HospitalSolicitud', component: HospitalSolicitud, beforeEnter: multiguard([isLoggedIn]) },
-    { path: '/mis-consultas', name: 'ConsultaMedico', component: ConsultaMedico, beforeEnter: multiguard([isLoggedIn]) },
-    { path: '/atender-consulta/:date', name: 'AtenderConsulta', component: AtenderConsulta, beforeEnter: multiguard([isLoggedIn]) },
-    { path: '/entregar-medicamento', name: 'EntregarMedicamento', component: EntregarMedicamento, beforeEnter: multiguard([isLoggedIn]) },
-    { path: '/resultado-examenes', name: 'ResultadoExamenes', component: ResultadoExamenes, beforeEnter: multiguard([isLoggedIn]) },
-    { path: '/ingresos-gastos', name: 'IngresoGasto', component: IngresoGasto, beforeEnter: multiguard([isLoggedIn]) },
-    { path: '/pagos-fundacion', name: 'PagoFundacion', component: PagoFundacion, beforeEnter: multiguard([isLoggedIn]) },
-    { path: '/pagos', name: 'Pago', component: Pago, beforeEnter: multiguard([isLoggedIn]) },
+    { path: '/psicopatologias', name: 'Psicopatologia', component: PsicopatologiaIndex, beforeEnter: multiguard([isLoggedIn, permissionValidations]) },
+    { path: '/medicamentos', name: 'Medicamento', component: MedicamentoIndex, beforeEnter: multiguard([isLoggedIn, permissionValidations]) },
+    { path: '/examenes', name: 'Examen', component: ExamenIndex, beforeEnter: multiguard([isLoggedIn, permissionValidations]) },
+    { path: '/conceptos', name: 'Concepto', component: ConceptoIndex, beforeEnter: multiguard([isLoggedIn, permissionValidations]) },
+    { path: '/enfermeros', name: 'Enfermero', component: EnfermeroIndex, beforeEnter: multiguard([isLoggedIn, permissionValidations]) },
+    { path: '/especialidades', name: 'Especialidade', component: EspecialidadeIndex, beforeEnter: multiguard([isLoggedIn, permissionValidations]) },
+    { path: '/medicos', name: 'Medico', component: MedicoIndex, beforeEnter: multiguard([isLoggedIn, permissionValidations]) },
+    { path: '/pacientes', name: 'Paciente', component: PacienteIndex, beforeEnter: multiguard([isLoggedIn, permissionValidations]) },
+    { path: '/pacientes-historial/:id', name: 'PacienteHistorial', component: PacienteHistorial, beforeEnter: multiguard([isLoggedIn, permissionValidations]) },
+    { path: '/solicitudes', name: 'Solicitude', component: SolicitudIndex, beforeEnter: multiguard([isLoggedIn, permissionValidations]) },
+    { path: '/hospital-solicitudes', name: 'HospitalSolicitud', component: HospitalSolicitud, beforeEnter: multiguard([isLoggedIn, permissionValidations]) },
+    { path: '/mis-consultas', name: 'ConsultaMedico', component: ConsultaMedico, beforeEnter: multiguard([isLoggedIn, permissionValidations]) },
+    { path: '/atender-consulta/:date', name: 'AtenderConsulta', component: AtenderConsulta, beforeEnter: multiguard([isLoggedIn, permissionValidations]) },
+    { path: '/entregar-medicamento', name: 'EntregarMedicamento', component: EntregarMedicamento, beforeEnter: multiguard([isLoggedIn, permissionValidations]) },
+    { path: '/resultado-examenes', name: 'ResultadoExamenes', component: ResultadoExamenes, beforeEnter: multiguard([isLoggedIn, permissionValidations]) },
+    { path: '/ingresos-gastos', name: 'IngresoGasto', component: IngresoGasto, beforeEnter: multiguard([isLoggedIn, permissionValidations]) },
+    { path: '/pagos-fundacion', name: 'PagoFundacion', component: PagoFundacion, beforeEnter: multiguard([isLoggedIn, permissionValidations]) },
+    { path: '/pagos', name: 'Pago', component: Pago, beforeEnter: multiguard([isLoggedIn, permissionValidations]) },
+    { path: '/reportes', name: 'Reporte', component: Reporte, beforeEnter: multiguard([isLoggedIn, permissionValidations]) },
+    { path: '/users', name: 'User', component: User, beforeEnter: multiguard([isLoggedIn, permissionValidations]) },
+    { path: '/change-password', name: 'ChangePassword', component: ChangePassword, beforeEnter: multiguard([isLoggedIn, permissionValidations]) },
 ]
 
 export default new Router({

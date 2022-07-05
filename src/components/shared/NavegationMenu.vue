@@ -53,6 +53,7 @@
           :key="item.title"
           :prepend-icon="item.icon"
           no-action
+          v-show="item.rol.includes(rol)"
         >
           
           <template v-slot:activator>
@@ -65,14 +66,14 @@
             v-for="child in item.items"
             :key="child.title"
             :to="child.path"
+            v-show="child.rol.includes(rol)"
           >
-          
             <v-list-item-content>
               <v-list-item-title  v-text="child.title"></v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-group>
-        <v-list-item to="/reportes">
+        <v-list-item to="/reportes" v-show="['admin','secretaria_ascilo'].includes(rol)">
           <v-list-item-icon>
             <v-icon>mdi-file-chart</v-icon>
           </v-list-item-icon>
@@ -130,8 +131,9 @@
                   <v-btn
                     text
                     color="primary"
+                    @click="$router.push('/change-password')"
                   >
-                    Perfil
+                    Cambiar contraseña
                   </v-btn>
                   <v-btn
                     color="primary"
@@ -170,10 +172,11 @@ export default {
           icon: 'mdi-account-network',
           title: 'Ascilo',
           active: true,
-          items: [{ title: 'Psicopatologias', path:'/psicopatologias' },
-                  { title: 'Enfermeros', path:'/enfermeros' },
-                  { title: 'Pacientes', path:'/pacientes' },
-                  { title: 'Solicitudes medicas', path:'/solicitudes' },
+          rol: ['admin','secretaria_ascilo'],
+          items: [{ title: 'Psicopatologias', path:'/psicopatologias', rol: ['admin','secretaria_ascilo'] },
+                  { title: 'Enfermeros', path:'/enfermeros', rol: ['admin','secretaria_ascilo'] },
+                  { title: 'Pacientes', path:'/pacientes', rol: ['admin','secretaria_ascilo'] },
+                  { title: 'Solicitudes medicas', path:'/solicitudes', rol: ['admin','secretaria_ascilo'] },
                   ]
           
         },
@@ -181,39 +184,53 @@ export default {
           icon: 'mdi-bottle-tonic-plus',
           title: 'Hospital',
           active: true,
-          items: [{ title: 'Especialidades', path: '/especialidades' },
-                  { title: 'Médicos', path:'/medicos' },
-                  { title: 'Solicitudes medicas', path:'/hospital-solicitudes' },
-                  { title: 'Mis consultas', path:'/mis-consultas' }]
+          rol: ['admin','secretaria_fundacion','medico'],
+          items: [{ title: 'Especialidades', path: '/especialidades',rol: ['admin','secretaria_fundacion'] },
+                  { title: 'Médicos', path:'/medicos',rol: ['admin','secretaria_fundacion'] },
+                  { title: 'Solicitudes medicas', path:'/hospital-solicitudes',rol: ['admin','secretaria_fundacion'] },
+                  { title: 'Mis consultas', path:'/mis-consultas',rol: ['admin','medico'] }]
           
         },
         
         {
           icon: 'mdi-bottle-tonic-plus',
           title: 'Farmacia',
+          rol: ['admin','farmacia'],
           active: true,
-          items: [{ title: 'Medicamentos', path:'/medicamentos' },
-                  { title: 'Ventas', path:'/entregar-medicamento' }]
+          items: [{ title: 'Medicamentos', path:'/medicamentos', rol: ['admin','farmacia'] },
+                  { title: 'Ventas', path:'/entregar-medicamento', rol: ['admin','farmacia'] }]
           
         },
         {
           icon: 'mdi-file-plus',
           title: 'Laboratorio',
+          rol: ['admin','laboratorio'],
           active: true,
-          items: [{ title: 'Examenes', path:'/examenes' },
-                  { title: 'Resultados ', path:'/resultado-examenes' }]
+          items: [{ title: 'Examenes', path:'/examenes',rol: ['admin','laboratorio'] },
+                  { title: 'Resultados ', path:'/resultado-examenes',rol: ['admin','laboratorio'] }]
           
         },
         {
           icon: 'mdi-cash-check ',
           title: 'Caja',
           active: true,
+          rol: ['admin','caja'],
           items: [
-                  { title: 'Conceptos de pago', path: '/conceptos' },
-                  { title: 'Ingresos/Gastos', path:'/ingresos-gastos' },
-                  { title: 'Pagos fundación', path:'/pagos-fundacion' },
-                  { title: 'Pagos mensuales', path:'/pagos' }]
+                  { title: 'Conceptos de pago', path: '/conceptos',rol: ['admin','caja'] },
+                  { title: 'Ingresos/Gastos', path:'/ingresos-gastos',rol: ['admin','caja'] },
+                  { title: 'Pagos fundación', path:'/pagos-fundacion',rol: ['admin','caja'] },
+                  { title: 'Pagos mensuales', path:'/pagos',rol: ['admin','caja'] }]
           
+        },
+
+        {
+          icon: 'mdi-account-multiple-plus ',
+          title: 'Accesos',
+          active: true,
+          rol: ['admin'],
+          items: [
+                  { title: 'Usuarios', path: '/users', rol: ['admin'] }
+          ]
         }
       ],
 
@@ -248,6 +265,11 @@ export default {
     name(){
       let self = this
       return self.$store.state.usuario.nombres + ' '+self.$store.state.usuario.apellidos
+    },
+
+    rol(){
+      let self = this
+      return self.$store.state.rol;
     },
   }
 };

@@ -212,6 +212,10 @@ import moment from 'moment'
           .getExamenes(self.search)
           .then(r => {
             self.loading = false;
+            if(r.response !== undefined){
+                self.$store.state.global.captureError(r, 'error')
+                return
+              }
             self.items = r.data;
           })
           .catch(r => {

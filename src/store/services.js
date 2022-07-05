@@ -19,12 +19,14 @@ import PagoFundacionService from '../services/PagoFundacionService'
 import PagoService from '../services/PagoService'
 import AnioService from '../services/AnioService'
 import MesService from '../services/MesService'
+import ReporteService from '../services/ReporteService'
+import UserService from '../services/UserService'
 
 // Axios Configuration
 Axios.defaults.headers.common.Accept = 'application/json'
 
-//let baseUrl = 'http://www.iglesia.com/' //base url desarrollo
-let baseUrl = 'http://sicoa.com/' //url production
+let baseUrl = 'http://167.99.218.207/' //base url produccion
+    //let baseUrl = 'http://sicoa.com/' //url desarrollo
 let token_data = localStorage.getItem(('token'))
 
 // Axios Configuration
@@ -91,4 +93,6 @@ export default {
     pagoService: new PagoService(Axios, baseUrl),
     anioService: new AnioService(Axios, baseUrl),
     mesService: new MesService(Axios, baseUrl),
+    reporteService: new ReporteService(Axios, baseUrl),
+    userService: new UserService(Axios, baseUrl),
 }

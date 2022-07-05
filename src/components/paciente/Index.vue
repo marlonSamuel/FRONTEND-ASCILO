@@ -431,20 +431,6 @@
                         required
                       ></v-text-field>
                     </v-col>
-
-                    <v-col
-                      cols="12"
-                      sm="4"
-                      md="4"
-                      xs="12"
-                    >
-                      <v-text-field
-                        v-model="editedItem.fecha_nacimiento_responsable"
-                        label="Fecha nacimiento"
-                        :rules="dateRules"
-                        type='date'
-                        required
-                      ></v-text-field>
                     </v-col>
                   </v-row>
 
@@ -489,6 +475,21 @@
 
                     <h2>Otra información</h2>
 
+                    <v-col
+                      cols="12"
+                      sm="6"
+                      md="6"
+                      xs="12"
+                    >
+                      <v-text-field
+                        v-model="editedItem.fecha_ingreso"
+                        label="Fecha ingreso"
+                        :rules="dateRules"
+                        type='date'
+                        required
+                      ></v-text-field>
+                    </v-col>
+
                       <v-autocomplete
                         v-model="editedItem.medicamentos"
                         :items="medicamentos"
@@ -499,6 +500,22 @@
                         label="Medicamentos administrados"
                         multiple
                       ></v-autocomplete>
+
+                      
+
+                    <v-col
+                      cols="12"
+                      sm="4"
+                      md="4"
+                      xs="12"
+                    >
+                      <v-text-field
+                        v-model="editedItem.fecha_ingreso"
+                        label="Fecha ingreso"
+                        :rules="dateRules"
+                        type='date'
+                        required
+                      ></v-text-field>
 
                     <v-textarea
                       rows="2"
@@ -704,7 +721,7 @@ import moment from 'moment'
             primer_apellido_responsable: '',
             segundo_apellido_responsable: '',
             cui_responsable: '',
-            fecha_nacimiento_responsable: '',
+            fecha_ingreso: '',
             razon: '',
             alergias: '',
             direccion_responsable: '',
@@ -731,7 +748,7 @@ import moment from 'moment'
             primer_apellido_responsable: '',
             segundo_apellido_responsable: '',
             cui_responsable: '',
-            fecha_nacimiento_responsable: '',
+            fecha_ingreso: '',
             razon: '',
             alergias: '',
             direccion_responsable: '',

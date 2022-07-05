@@ -11,19 +11,26 @@ Vue.use(Vuex)
 const state = {
     services,
     global,
+    rol: '',
     usuario: {},
+    persmisos: [],
     token: null,
     is_login: false,
     token_expired: null,
     client_id: 2,
-    base_url: 'http://sicoa.com/',
-    //base_url: 'http://207.154.253.69/iglesia/',
+    //base_url: 'http://sicoa.com/',
+    base_url: 'http://167.99.218.207/',
     client_secret: 'trAeIFHhCpAFccxg1wwBXltW3WWE0e4M6IvQDwQf'
 }
 
 const mutations = {
     setUser(state, usuario) {
         state.usuario = usuario
+        state.rol = usuario.role.nombre
+    },
+
+    setPermisos(state, permisos) {
+        state.permisos = permisos
     },
 
     setToken(state, token) {
@@ -75,6 +82,10 @@ const actions = {
 
     setUser({ commit }, user) {
         commit('setUser', user)
+    },
+
+    setPermisos({ commit }, permisos) {
+        commit('setPermisos', permisos)
     }
 }
 
