@@ -474,21 +474,6 @@
 
                     <h2>Otra información</h2>
 
-                    <v-col
-                      cols="12"
-                      sm="6"
-                      md="6"
-                      xs="12"
-                    >
-                      <v-text-field
-                        v-model="editedItem.fecha_ingreso"
-                        label="Fecha ingreso"
-                        :rules="dateRules"
-                        type='date'
-                        required
-                      ></v-text-field>
-                    </v-col>
-
                       <v-autocomplete
                         v-model="editedItem.medicamentos"
                         :items="medicamentos"

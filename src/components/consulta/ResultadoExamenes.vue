@@ -259,7 +259,7 @@ import moment from 'moment'
 
     getTotal(items){
         const sum = items.reduce((accumulator, object) => {
-            return accumulator + parseFloat(object.precio);
+            return accumulator + parseFloat(object.precio * object.cantidad);
         }, 0);
 
         return sum;
